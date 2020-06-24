@@ -1,9 +1,10 @@
 #include <iostream>
-
+#include <conio.h>
+#include <stdio.h>
 using namespace std;
 
 bool gameOver;
-const int width = 20;
+const int width = 30;
 const int height = 20;
 int x, y, fruitX, fruitY, score;
 enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
@@ -35,9 +36,9 @@ void Draw()
         {
             if(j == 0 || j == (width - 1))
                 cout << "#";
-            else if(i == fruitX && j == fruitY)
+            else if(i == fruitY && j == fruitX)
                 cout << "0";
-            else if(i == x && j == y)
+            else if(i == y && j == x)
                 cout << "@";
             else
                 cout << " ";
@@ -61,12 +62,57 @@ void Draw()
 
 void Input()
 {
-
-
+    if(_kbhit())
+    {
+        switch(_getch())
+        {
+            case 'a':
+                dir = LEFT;
+                break;
+            case 's':
+                dir = DOWN;
+                break;
+            case 'd':
+                dir = RIGHT;
+                break;
+            case 'w':
+                dir = UP;
+                break;
+            case 'x':
+                gameOver = true;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 void Logic()
 {
+    switch(dir)
+    {
+        case UP:
+            y--;
+            break;
+        case DOWN:
+            y++;
+            break;
+        case LEFT:
+            x--;
+            break;
+        case RIGHT:
+            x++;
+            break;
+    }
+if(x <= 0 || x >= (width-1) || y <= 0 || y >= (height-1))
+    gameOver = true;
+if(x == fruitX && y == fruitY)
+    {
+        score++;
+        fruitX = rand() % width;
+        fruitY = rand() % height;
+    }
+
 
 
 }
@@ -80,7 +126,7 @@ int main()
         Draw();
         Input();
         Logic();
-
+        _sleep(100);
 
     }
 
